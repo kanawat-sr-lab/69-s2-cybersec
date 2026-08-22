@@ -8,3 +8,13 @@ services:
       - POSTGRES_PASSWORD=12345678
       - POSTGRES_USER=kanawat
       - POSTGRES_DB=kanawat
+
+   admin:
+    image: dpage/pgadmin4:latest
+    container_name: 69-s2-admin
+    ports:
+      - 8082:80
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=kanawat-sr@rmutp.ac.th
+      - PGADMIN_DEFAULT_PASSWORD=12345678
+   
