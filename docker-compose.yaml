@@ -5,9 +5,17 @@ services:
     ports:
       - 54321:5432
     environment:
+<<<<<<< HEAD
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_DB=${POSTGRES_DB}
+=======
+      - POSTGRES_PASSWORD=12345678
+      - POSTGRES_USER=kanawat
+      - POSTGRES_DB=kanawat
+    volumes:
+      - ./data-postgres:/var/lib/postgresql/data
+>>>>>>> 55f96ad7d0567433dd5e983625b266d246a6648e
 
   admin:
    image: dpage/pgadmin4:latest
@@ -15,6 +23,7 @@ services:
    ports:
       - 8082:80
    environment:
+<<<<<<< HEAD
       - PGADMIN_DEFAULT_EMAIL=${PGADMIN_DEFAULT_EMAIL}
       - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_DEFAULT_PASSWORD}
 
@@ -31,3 +40,12 @@ services:
 #       - DATABASE_PORT=5432
 #       - DATABASE_USERNAME=kanawat
 #       - DATABASE_PASSWORD=12345678
+=======
+      - PGADMIN_DEFAULT_EMAIL=kanawat-sr@rmutp.ac.th
+      - PGADMIN_DEFAULT_PASSWORD=12345678
+   volumes:
+      - ./data-pgadmin:/var/lib/pgadmin
+
+  
+
+>>>>>>> 55f96ad7d0567433dd5e983625b266d246a6648e
