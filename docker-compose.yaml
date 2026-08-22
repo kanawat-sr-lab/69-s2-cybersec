@@ -8,6 +8,8 @@ services:
       - POSTGRES_PASSWORD=12345678
       - POSTGRES_USER=kanawat
       - POSTGRES_DB=kanawat
+    volumes:
+      - ./data-postgres:/var/lib/postgresql/data
 
   admin:
    image: dpage/pgadmin4:latest
@@ -17,6 +19,8 @@ services:
    environment:
       - PGADMIN_DEFAULT_EMAIL=kanawat-sr@rmutp.ac.th
       - PGADMIN_DEFAULT_PASSWORD=12345678
+   volumes:
+      - ./data-pgadmin:/var/lib/pgadmin
 
   
 
