@@ -17,4 +17,17 @@ services:
    environment:
       - PGADMIN_DEFAULT_EMAIL=kanawat-sr@rmutp.ac.th
       - PGADMIN_DEFAULT_PASSWORD=12345678
-   
+
+  
+  app:
+   image: prawee/strapi
+   container_name: 69-s2-app
+   ports:
+      - 9092:1337
+   environment:
+      - DATABASE_CLIENT=postgres
+      - DATABASE_NAME=kanawat
+      - DATABASE_HOST=db
+      - DATABASE_PORT=5432
+      - DATABASE_USERNAME=kanawat
+      - DATABASE_PASSWORD=12345678
