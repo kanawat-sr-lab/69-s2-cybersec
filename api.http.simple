@@ -1,30 +1,156 @@
 # REST
+@baseUrl = http://localhost:{{$dotenv APP_PORT}}
+@adminEmail = {{$dotenv REST_CLIENT_ADMIN_EMAIL}}
+@adminPassword = {{$dotenv REST_CLIENT_ADMIN_PASSWORD}}
+@adminFirstname = {{$dotenv REST_CLIENT_ADMIN_FIRSTNAME}}
+@adminLastname = {{$dotenv REST_CLIENT_ADMIN_LASTNAME}}
+@resetPasswordToken = {{$dotenv REST_CLIENT_PASSWORD_RESET_TOKEN}}
+@newAdminPassword = {{$dotenv REST_CLIENT_NEW_PASSWORD}}
+@contentApiToken = {{$dotenv REST_CLIENT_CONTENT_API_TOKEN}}
+@studentId = 1
+@subjectId = 1
+@teacherId = 1
 
-## 1.Admin
-### 1.1 Login
-POST http://localhost:9192/admin/login
+## Login
+POST {{baseUrl}}/admin/login
 Content-Type: application/json
 
 {
-    "email": "",
-    "password": "",
+    "email": "{{adminEmail}}",
+    "password": "{{adminPassword}}",
     "rememberMe": false
 }
 
-### 1.2 Register
-### 1.3 Forgot Password
-### 1.4 Profile
-
-## 2.User
-### 2.1 Login
-POST http://localhost:9192/api/auth/local
+## Register
+POST {{baseUrl}}/admin/register-admin
 Content-Type: application/json
 
 {
-    "identifier": "",
-    "password": ""
+    "firstname": "{{adminFirstname}}",
+    "lastname": "{{adminLastname}}",
+    "email": "{{adminEmail}}",
+    "password": "{{adminPassword}}"
 }
 
-### 2.2 Register
-### 2.3 Forgot Password
-### 2.4 Profile
+## Forgot Password
+POST {{baseUrl}}/admin/forgot-password
+Content-Type: application/json
+
+{
+    "email": "{{adminEmail}}"
+}
+
+## Reset Password
+POST {{baseUrl}}/admin/reset-password
+Content-Type: application/json
+
+{
+    "resetPasswordToken": "{{resetPasswordToken}}",
+    "password": "{{newAdminPassword}}"
+}
+
+## Profile
+GET {{baseUrl}}/admin/users/me
+Content-Type: application/json; charset=utf-8
+
+{
+    id: ,
+    firstname: "",
+    lastname: "", 
+    username: null, 
+    email: "",
+}
+
+### 3.1.1 Student - Create
+POST {{baseUrl}}/api/students
+Content-Type: application/json
+Authorization: Bearer {{contentApiToken}}
+
+{
+    "data": {
+        "name": "Test Student",
+        "mobile": "0812345678",
+        "cardId": "1234567890123"
+    }
+}
+
+### 3.1.2 Student - List All
+GET {{baseUrl}}/api/students
+Authorization: Bearer {{contentApiToken}}
+
+### 3.1.3 Student - List with ID
+GET {{baseUrl}}/api/students/{{studentId}}
+Authorization: Bearer {{contentApiToken}}
+
+### 3.1.4 Student - Update
+PUT {{baseUrl}}/api/students/{{studentId}}
+Content-Type: application/json
+Authorization: Bearer {{contentApiToken}}
+
+{
+    "data": {
+        "name": "Updated Student",
+        "mobile": "0812345678",
+        "cardId": "1234567890123"
+    }
+}
+
+### 3.2.1 Subject - Create
+POST {{baseUrl}}/api/subjects
+Content-Type: application/json
+Authorization: Bearer {{contentApiToken}}
+
+{
+    "data": {
+        "name": "Example Subject"
+    }
+}
+
+### 3.2.2 Subject - List All
+GET {{baseUrl}}/api/subjects
+Authorization: Bearer {{contentApiToken}}
+
+### 3.2.3 Subject - List with ID
+GET {{baseUrl}}/api/subjects/{{subjectId}}
+Authorization: Bearer {{contentApiToken}}
+
+### 3.2.4 Subject - Update
+PUT {{baseUrl}}/api/subjects/{{subjectId}}
+Content-Type: application/json
+Authorization: Bearer {{contentApiToken}}
+
+{
+    "data": {
+        "name": "Updated Subject"
+    }
+}
+
+### 3.3.1 Teacher - Create
+POST {{baseUrl}}/api/teachers
+Content-Type: application/json
+Authorization: Bearer {{contentApiToken}}
+
+{
+    "data": {
+        "name": "Test Teacher"
+    }
+}
+
+### 3.3.2 Teacher - List All
+GET {{baseUrl}}/api/teachers
+Authorization: Bearer {{contentApiToken}}
+
+### 3.3.3 Teacher - List with ID
+GET {{baseUrl}}/api/teachers/{{teacherId}}
+Authorization: Bearer {{contentApiToken}}
+
+### 3.3.4 Teacher - Update
+PUT {{baseUrl}}/api/teachers/{{teacherId}}
+Content-Type: application/json
+Authorization: Bearer {{contentApiToken}}
+
+{
+    "data": {
+        "name": "Updated Teacher"
+    }
+}
