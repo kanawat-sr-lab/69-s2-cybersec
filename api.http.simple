@@ -1,93 +1,156 @@
 # REST
+@baseUrl = http://localhost:{{$dotenv APP_PORT}}
+@adminEmail = {{$dotenv REST_CLIENT_ADMIN_EMAIL}}
+@adminPassword = {{$dotenv REST_CLIENT_ADMIN_PASSWORD}}
+@adminFirstname = {{$dotenv REST_CLIENT_ADMIN_FIRSTNAME}}
+@adminLastname = {{$dotenv REST_CLIENT_ADMIN_LASTNAME}}
+@resetPasswordToken = {{$dotenv REST_CLIENT_PASSWORD_RESET_TOKEN}}
+@newAdminPassword = {{$dotenv REST_CLIENT_NEW_PASSWORD}}
+@contentApiToken = {{$dotenv REST_CLIENT_CONTENT_API_TOKEN}}
+@studentId = 1
+@subjectId = 1
+@teacherId = 1
 
-## Variables
-@admin_email = {{$dotenv ADMIN_EMAIL}}
-@admin_password = {{$dotenv ADMIN_PASSWORD}}
-
-@user_email = {{$dotenv USER_EMAIL}}
-@user_password = {{$dotenv USER_PASSWORD}}
-
-## 1. Admin
-# 1.1 Login (Admin)
-POST http://localhost:9092/admin/login
+## Login
+POST {{baseUrl}}/admin/login
 Content-Type: application/json
 
 {
-    "email": "{{admin_email}}",
-    "password": "{{admin_password}}",
+    "email": "{{adminEmail}}",
+    "password": "{{adminPassword}}",
     "rememberMe": false
 }
 
-### 1.2 Register (Admin) one time for first time to create admin account
-POST http://localhost:9092/admin/register-admin
+## Register
+POST {{baseUrl}}/admin/register-admin
 Content-Type: application/json
 
 {
-    "firstname": "{{admin_firstname}}",
-    "lastname": "{{admin_lastname}}",
-    "email": "{{admin_email}}",
-    "password": "{{admin_password}}"
+    "firstname": "{{adminFirstname}}",
+    "lastname": "{{adminLastname}}",
+    "email": "{{adminEmail}}",
+    "password": "{{adminPassword}}"
 }
 
-### 1.3 Forgot Password
-POST http://localhost:9092/admin/forgot-password
+## Forgot Password
+POST {{baseUrl}}/admin/forgot-password
 Content-Type: application/json
 
 {
-    "email": "{{admin_email}}"
+    "email": "{{adminEmail}}"
 }
 
-### 1.3.1 Reset Password (Admin)
-POST http://localhost:9092/admin/reset-password
+## Reset Password
+POST {{baseUrl}}/admin/reset-password
 Content-Type: application/json
 
 {
-    "resetPasswordToken": "",
-    "password": "{{admin_password}}"
+    "resetPasswordToken": "{{resetPasswordToken}}",
+    "password": "{{newAdminPassword}}"
 }
 
-### 1.4 Profile
-GET http://localhost:9092/admin/users/me
-Authorization: Bearer {YOUR_JWT_TOKEN}
-
-## 2.User
-### 2.1 Login
-POST http://localhost:9092/api/auth/local
-Content-Type: application/json
+## Profile
+GET {{baseUrl}}/admin/users/me
+Content-Type: application/json; charset=utf-8
 
 {
-    "identifier": "{{user_email}}",
-    "password": "{{user_password}}"
+    id: ,
+    firstname: "",
+    lastname: "", 
+    username: null, 
+    email: "",
 }
 
-### 2.2 Register
-POST http://localhost:9092/api/auth/local/register
+### 3.1.1 Student - Create
+POST {{baseUrl}}/api/students
 Content-Type: application/json
+Authorization: Bearer {{contentApiToken}}
 
 {
-    "username": "{{user_username}}",
-    "email": "{{user_email}}",
-    "password": "{{user_password}}"
+    "data": {
+        "name": "Test Student",
+        "mobile": "0812345678",
+        "cardId": "1234567890123"
+    }
 }
 
-### 2.3 Forgot Password
-POST http://localhost:9092/api/auth/forgot-password
+### 3.1.2 Student - List All
+GET {{baseUrl}}/api/students
+Authorization: Bearer {{contentApiToken}}
+
+### 3.1.3 Student - List with ID
+GET {{baseUrl}}/api/students/{{studentId}}
+Authorization: Bearer {{contentApiToken}}
+
+### 3.1.4 Student - Update
+PUT {{baseUrl}}/api/students/{{studentId}}
 Content-Type: application/json
+Authorization: Bearer {{contentApiToken}}
 
 {
-    "email": "{{user_email}}"
+    "data": {
+        "name": "Updated Student",
+        "mobile": "0812345678",
+        "cardId": "1234567890123"
+    }
 }
 
-### 2.3.1 Reset Password
-POST http://localhost:9092/api/auth/reset-password
+### 3.2.1 Subject - Create
+POST {{baseUrl}}/api/subjects
 Content-Type: application/json
+Authorization: Bearer {{contentApiToken}}
 
 {
-    "code": "{{reset_token}}",
-    "password": "{{user_new_password}}",
-    "passwordConfirmation": "{{user_new_password}}"
+    "data": {
+        "name": "Example Subject"
+    }
 }
 
-### 2.4 Profile
-GET http://localhost:9092/api/users/me
-Authorization: Bearer {YOUR_JWT_TOKEN}
+### 3.2.2 Subject - List All
+GET {{baseUrl}}/api/subjects
+Authorization: Bearer {{contentApiToken}}
+
+### 3.2.3 Subject - List with ID
+GET {{baseUrl}}/api/subjects/{{subjectId}}
+Authorization: Bearer {{contentApiToken}}
+
+### 3.2.4 Subject - Update
+PUT {{baseUrl}}/api/subjects/{{subjectId}}
+Content-Type: application/json
+Authorization: Bearer {{contentApiToken}}
+
+{
+    "data": {
+        "name": "Updated Subject"
+    }
+}
+
+### 3.3.1 Teacher - Create
+POST {{baseUrl}}/api/teachers
+Content-Type: application/json
+Authorization: Bearer {{contentApiToken}}
+
+{
+    "data": {
+        "name": "Test Teacher"
+    }
+}
+
+### 3.3.2 Teacher - List All
+GET {{baseUrl}}/api/teachers
+Authorization: Bearer {{contentApiToken}}
+
+### 3.3.3 Teacher - List with ID
+GET {{baseUrl}}/api/teachers/{{teacherId}}
+Authorization: Bearer {{contentApiToken}}
+
+### 3.3.4 Teacher - Update
+PUT {{baseUrl}}/api/teachers/{{teacherId}}
+Content-Type: application/json
+Authorization: Bearer {{contentApiToken}}
+
+{
+    "data": {
+        "name": "Updated Teacher"
+    }
+}
